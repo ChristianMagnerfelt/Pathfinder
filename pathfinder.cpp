@@ -3,18 +3,41 @@
 #include <algorithm>
 #include <iostream>
 
-Pathfinder::Pathfinder()
-{
-	
-}
 void Pathfinder::addLineAsRow(std::string && line)
 {
-	maze.push_back(move(line));			
+	findStartPosition(line);
+	maze.push_back(line);		
 }
-void Pathfinder::printMaze()
+void Pathfinder::findStartPosition(std::string & line)
 {
-	std::for_each(maze.begin(),maze.end(),[](std::string & row)
+	for(size_t pos = 0; pos < line.length(); ++pos)
 	{
-		std::cout << row << std::endl; 		
+		if(line[pos] == playerTile)
+		{
+			playerStart.first = pos;
+			playerStart.second = maze.size();
+			printStartPosition();
+		}
+		else if(line[pos] == playerOnGoalTile)
+		{
+			playerStart.first = pos;
+			playerStart.second = maze.size();
+			playerOnGoal = true;
+			printStartPosition();
+		}
+	}
+}
+void Pathfinder::printStartPosition() const
+{
+	if(playerOnGoal)
+		std::cout << "Player on Goal" << std::endl;
+	std::cout << "Start :" << playerStart.first << "," << playerStart.second << std::endl;
+}
+void Pathfinder::printMaze() const
+{
+	std::for_each(maze.begin(),maze.end(),[](const std::string & row)
+	{
+		std::cout << row << std::endl;	
 	});
 }
+
