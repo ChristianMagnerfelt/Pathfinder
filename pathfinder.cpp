@@ -41,3 +41,109 @@ void Pathfinder::printMaze() const
 	});
 }
 
+void Pathfinder::findSolution()
+{
+	breadFirstSearch();
+}
+
+void Pathfinder::breadFirstSearch()
+{
+	queue.push_front(playerStart);
+	while(!queue.empty())
+	{	
+		if(foundSolution)
+			return;
+		Position pos = queue.front();
+		queue.pop_front();
+
+		std::cout << "Current Position " << pos.first << "," << pos.second << std::endl;
+
+		checkUp(pos);
+		checkRight(pos);
+		checkDown(pos);
+		checkLeft(pos);
+	}
+	std::cout << "Found no solution" << std::endl;
+}
+
+void Pathfinder::checkUp(Position & pos)
+{
+	if(pos.second == 0)
+		return;
+	if(maze[pos.second - 1][pos.first] == goalTile)
+	{
+		foundSolution = true;
+		std::cout << "Found solution" << std::endl;
+		return;
+	}
+	if(maze[pos.second - 1][pos.first] != emptySpace)
+		return;
+	std::cout << "U" << std::endl;
+
+	// Mark position as visited
+	maze[pos.second - 1][pos.first] = upC;
+
+	// Add new position to queue
+	queue.emplace_back(Position(pos.first, pos.second - 1));
+}
+void Pathfinder::checkRight(Position & pos)
+{
+	if(pos.first == (maze[pos.second].length() - 1))
+		return;
+	if(maze[pos.second][pos.first + 1] == goalTile)
+	{
+		foundSolution = true;
+		std::cout << "Found solution" << std::endl;
+		return;
+	}
+	if(maze[pos.second][pos.first + 1] != emptySpace)
+		return;
+	std::cout << "R" << std::endl;
+
+	// Mark position as visited
+	maze[pos.second][pos.first + 1] = rightC;
+
+	// Add new position to queue
+	queue.emplace_back(Position(pos.first + 1, pos.second));
+}
+void Pathfinder::checkDown(Position & pos)
+{
+	if(pos.second == (maze.size() - 1))
+		return;
+	if(maze[pos.second + 1][pos.first] == goalTile)
+	{
+		foundSolution = true;
+		std::cout << "Found solution" << std::endl;
+		return;
+	}
+	if(maze[pos.second + 1][pos.first] != emptySpace)
+		return;
+	std::cout << "D" << std::endl;
+
+	// Mark position as visited
+	maze[pos.second + 1][pos.first] = downC;
+
+	// Add new position to queue
+	queue.emplace_back(Position(pos.first, pos.second + 1));
+}
+void Pathfinder::checkLeft(Position & pos)
+{
+	if(pos.first == 0)
+		return;
+	if(maze[pos.second][pos.first - 1] == goalTile)
+	{
+		foundSolution = true;
+		std::cout << "Found solution" << std::endl;
+		return;
+	}
+	if(maze[pos.second][pos.first - 1] != emptySpace)
+		return;
+	std::cout << "L" << std::endl;
+
+	// Mark position as visited
+	maze[pos.second][pos.first - 1] = leftC;
+
+	// Add new position to queue
+	queue.emplace_back(Position(pos.first - 1, pos.second));
+}
+

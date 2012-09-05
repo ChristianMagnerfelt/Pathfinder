@@ -39,12 +39,16 @@ int main(int pArgC, char* pArgs[])
     pathfinder.printMaze();
     //now, we should find a path from the player to any goal
 
+	pathfinder.findSolution();
+
+	pathfinder.printMaze();
     //we've found our solution    
 	std::string lMySol("U R R U U L D L L U L L D R R R R L D D R U R U D L L U R");
 	//these formats are also valid:
 	//std::string lMySol("URRUULDLLULLDRRRRLDDRURUDLLUR");
     //std::string lMySol("0 3 3 0 0 2 1 2 2 0 2 2 1 3 3 3 3 2 1 1 3 0 3 0 1 2 2 0 3");
 
+	
 	if(hasSolution)
 	{
 		//send the solution to the server
