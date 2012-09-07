@@ -8,7 +8,7 @@ csocket.o: csocket.h
 	g++ -c csocket.cc
 
 pathfinder.o: pathfinder.h
-	g++ -c -std=c++0x pathfinder.cpp
+	g++ -c -std=c++0x pathfinder.cc
 
 clean:
 	rm -f *.o pathfinder
